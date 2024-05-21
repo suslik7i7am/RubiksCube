@@ -83,8 +83,8 @@ void keyFunc(unsigned char key, int x, int y)
     cout << "(" << (int)key << ")" << key << " x:" << x << " y:" << y << endl;
 }
 int main(int argc, char** argv) {
-    
-
+    //try version 2
+    cout << "hello world";
    
     glutInit(&argc, argv);
    
