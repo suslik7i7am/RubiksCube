@@ -69,13 +69,13 @@ void display() {
 
     glRotatef(rotateAngle, 0.0, 0.0, 1.0);
     renderCube(0.5 ,0,1,0);
-    glPopMatrix();
-    glPushMatrix();
+    glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
+    glPushMatrix();//
     
     glRotatef(0, 0.0, 0.0, 1.0);
     renderCube(0.5, 0, 0, 1.1);
-    glPopMatrix();
-    glPushMatrix();
+    glPopMatrix(); // ---//----
+    glPushMatrix();//
 
 
     glutSwapBuffers();
