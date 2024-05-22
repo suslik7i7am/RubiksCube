@@ -1,137 +1,21 @@
-#include <GL/glut.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
+
 #include <cmath>
 #include <iostream>
-
+#include <vector>
+#include "SmallCube.h"
 using namespace std;
 
 float rotateAngle = 0.0f;
 
 
-struct Color
-{
-    float r, g, b;
-    Color(float r, float g, float b) {
-        this->r = r;
-        this->g = g;
-        this->b = b;
-    }
 
-};
+//void displayCube(float size, float x, float y, float z) {
+//    glTranslatef(0.0, 0.0, 0.0);
+//    renderCube(0.7, 1, 0, 1);
+//}
 
-
-
-void renderCube(float size, float x, float y, float z) {
-    glBegin(GL_QUADS);
-    glTranslatef(x, y, z);
-
-    float width = 0.1;
-    Color widthColor(0.1, 0.1, 0.1);
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // Каемка
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    size -= width;
-    z -= width + 0.001;
-    glColor3f(1.0, 1.0, 1.0); // Белый
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    size += width;
-    z += width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    size -= width;
-    z += width + 0.001;
-    glColor3f(1.0, 0.835, 0.0); // желтый
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    size += width;
-    z -= width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    size -= width;
-    x -= width + 0.001;
-    glColor3f(0.0, 0.608, 0.282); // зеленый
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    size += width;
-    x += width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    size -= width;
-    x += width + 0.001;
-    glColor3f(0.0, 0.275, 0.678); // Синий
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    size += width;
-    x -= width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    size -= width;
-    y -= width + 0.001;
-    glColor3f(0.718, 0.071, 0.204); // Крассный
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    size += width;
-    y += width + 0.001;
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    size -= width;
-    y += width + 0.001;
-    glColor3f(1.0, 0.345, 0); // Оранжевый
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    size += width;
-    y -= width + 0.001;
-
-    glEnd();
-    
-}
-
-void displayCube(float size, float x, float y, float z) {
-    glTranslatef(0.0, 0.0, 0.0);
-    renderCube(0.7, 1, 0, 1);
-}
-
+SmallCube X(0.5, 0, 0, 0);
+Coords cameraPosition(4.0, 0.0, 0.0);
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -141,10 +25,12 @@ void display() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    glRotatef(rotateAngle, 1.0, -1.0, 1.0);
-    renderCube(0.5 ,0,0,0);
+    glRotatef(0, 1.0, -1.0, 1.0);
+    //renderCube(0.5 ,0,0,0);
+   
+    X.display();
     glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
     glPushMatrix();//
     
@@ -181,6 +67,52 @@ void keyFunc(unsigned char key, int x, int y)
 {
     cout << "(" << (int)key << ")" << key << " x:" << x << " y:" << y << endl;
 }
+//////////////////////////////////////////////////////////////////////
+
+
+Coords rotate(Coords point, float angleX, float angleY, float angleZ) {
+    float a = angleX, b = angleY, c = angleZ;
+    std::vector<std::vector<float>> rotationMatrix(3, std::vector<float>(3, 0));
+    rotationMatrix[0] = { cos(b) * cos(c),   -sin(c) * cos(b),   sin(b) };
+    rotationMatrix[1] = { sin(a) * sin(b) * cos(c) + sin(c) * cos(a),    -sin(a) * sin(b) * sin(c) + cos(a) * cos(c),   -sin(a) * cos(b) };
+    rotationMatrix[2] = { sin(a) * sin(c) - sin(b) * cos(a) * cos(c),   sin(a) * cos(c) + sin(b) * sin(c) * cos(a),   cos(a) * cos(b) };
+
+    return Coords(rotationMatrix[0][0] * point.x + rotationMatrix[0][1] * point.y + rotationMatrix[0][2] * point.z,
+        rotationMatrix[1][0] * point.x + rotationMatrix[1][1] * point.y + rotationMatrix[1][2] * point.z,
+        rotationMatrix[2][0] * point.x + rotationMatrix[2][1] * point.y + rotationMatrix[2][2] * point.z);
+
+}
+//
+//void mouseClick(int button, int state, int x, int y) {
+//    Coords delta(0,0,0);
+//    cout << endl;
+//    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+//        //cout << x << " " << y << " -> ";
+//        //delta.x -= x;
+//        delta.y -= y;
+//    }
+//    else if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP) {
+//        //cout << x << " " << y << "\n";
+//        //delta.x += x;
+//        delta.y += y;
+//        cout << delta.x << " " << delta.y << endl;
+//        cameraPosition = rotate(cameraPosition, delta.x / 1000, delta.y / 1000, 0);
+//
+//    }
+//
+//}
+
+void onMouseMove(int x, int y) {
+    int mouseX, mouseY;
+    mouseX = x;
+    mouseY = y;
+    std::cout << "Mouse position - x: " << mouseX << ", y: " << mouseY << std::endl;
+}
+
+
+
+
+
 int main(int argc, char** argv) {
     //try version 2
     cout << "hello world";
@@ -193,9 +125,9 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     glutDisplayFunc(display);
     glutTimerFunc(16, update, 0);
-    glutKeyboardFunc(keyFunc);
-
-
+    //glutKeyboardFunc(keyFunc);
+    //glutMouseFunc(mouseClick);
+    glutPassiveMotionFunc(onMouseMove);
     glutMainLoop();
 
     return 0;
