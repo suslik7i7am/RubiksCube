@@ -127,7 +127,9 @@ int main(int argc, char** argv) {
     glutTimerFunc(16, update, 0);
     //glutKeyboardFunc(keyFunc);
     //glutMouseFunc(mouseClick);
-    glutPassiveMotionFunc(onMouseMove);
+    //glutPassiveMotionFunc(onMouseMove);
+
+
     glutMainLoop();
 
     return 0;
