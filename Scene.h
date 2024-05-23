@@ -39,7 +39,7 @@ private:
 
 	void display();
 	static void displayST();
-	SmallCube X;
+	//SmallCube X;
 public:
 	void play();
 	Scene();

@@ -24,7 +24,7 @@ void Scene::Mouse::mouseButtonsProcessing(int button, int state, int x, int y)
             rightButtonPressed = false;
             positionRightButtonUpX = deltaMouseCursorX;
             positionRightButtonUpY = deltaMouseCursorY;
-            positionRightButtonUpY = std::min(std::max((double)positionRightButtonUpY, -3.14159265358979323846 * 100 / 2), 3.14159265358979323846 * 100 / 2);
+            positionRightButtonUpY = std::min(std::max((double)positionRightButtonUpY, -3.14159265358979323846 * 100 / 2 + 10e-4), 3.14159265358979323846 * 100 / 2 - 10e-4);
         }
         
     }
@@ -69,10 +69,10 @@ void Scene::updateCameraPosition()
     }
     cameraPositionAngles.z = mouse.deltaMouseCursorY / 100.0;
     if (cameraPositionAngles.z < -3.14159265358979323846 / 2) {
-        cameraPositionAngles.z = -3.14159265358979323846 / 2;
+        cameraPositionAngles.z = -3.14159265358979323846 / 2 + 10e-4;
     }
     else if (cameraPositionAngles.z >  3.14159265358979323846 / 2) {
-        cameraPositionAngles.z = 3.14159265358979323846 / 2;
+        cameraPositionAngles.z = 3.14159265358979323846 / 2 - 10e-4; 
     }
 
     Coords point = Coords(cameraDistanseToCoord0, 0, 0);
@@ -99,7 +99,9 @@ void Scene::update(int value)
     if (mouse.rightButtonPressed) {
         updateCameraPosition();
     }
-    std::cout << mouse.cursorPositionX - mouse.cursorOffsetX << " " << mouse.cursorPositionY - mouse.cursorOffsetY << "\n";
+    
+
+
 }
 
 void Scene::updateST(int value)
@@ -116,7 +118,7 @@ void Scene::display() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0, 1.0, 1.0, 10.0);
+    gluPerspective(45.0, 1.0, 1.0, 100.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -126,7 +128,36 @@ void Scene::display() {
     glRotatef(0, 1.0, -1.0, 1.0);
     //renderCube(0.5 ,0,0,0);
 
-    X.display();
+    SmallCube(0.5, 0, 0, 0, "RGBOY").display();
+    SmallCube(0.5, 1, 0, 0, "RGBOY").display();
+    SmallCube(0.5, -1, 0, 0, "RGBOY").display();
+    SmallCube(0.5, 0, 1, 0, "RGBOY").display();
+    SmallCube(0.5, 1, 1, 0, "RGBOY").display();
+    SmallCube(0.5, -1, 1, 0, "RGBOY").display();
+    SmallCube(0.5, 0, -1, 0, "RGBOY").display();
+    SmallCube(0.5, 1, -1, 0, "RGBOY").display();
+    SmallCube(0.5, -1, -1, 0, "RGBOY").display();
+
+    SmallCube(0.5, 0, 0, 1).display();
+    SmallCube(0.5, 1, 0, 1).display();
+    SmallCube(0.5, -1, 0, 1).display();
+    SmallCube(0.5, 0, 1, 1).display();
+    SmallCube(0.5, 1, 1, 1).display();
+    SmallCube(0.5, -1, 1, 1).display();
+    SmallCube(0.5, 0, -1, 1).display();
+    SmallCube(0.5, 1, -1, 1).display();
+    SmallCube(0.5, -1, -1, 1).display();
+
+    glRotatef(45, 0, 0, 1.0);
+    SmallCube(0.5, 0, 0, -1, "RGBOW").display();
+    SmallCube(0.5, 1, 0, -1, "RGBOW").display();
+    SmallCube(0.5, -1, 0, -1, "RGBOW").display();
+    SmallCube(0.5, 0, 1, -1, "RGBOW").display();
+    SmallCube(0.5, 1, 1, -1, "RGBOW").display();
+    SmallCube(0.5, -1, 1, -1, "RGBOW").display();
+    SmallCube(0.5, 0, -1, -1, "RGBOW").display();
+    SmallCube(0.5, 1, -1, -1, "RGBOW").display();
+    SmallCube(0.5, -1, -1, -1, "RGBOW").display();
     glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
     glPushMatrix();//
 
@@ -170,7 +201,7 @@ void Scene::play()
 
 Scene::Scene()
 {
-    X =  SmallCube(0.5, 0, 0, 0);
-    cameraDistanseToCoord0 = 4.0;
+    //X =  SmallCube(0.5, 0, 0, 0);
+    cameraDistanseToCoord0 = 10.0;
     cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
 }
