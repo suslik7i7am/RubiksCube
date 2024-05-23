@@ -8,8 +8,6 @@ void Scene::Mouse::MouseProcessing(int mouseX, int mouseY)
 {
     cursorPositionX = mouseX;
     cursorPositionY = mouseY;
-    
-
 }
 
 void Scene::Mouse::mouseButtonsProcessing(int button, int state, int x, int y)
@@ -99,8 +97,8 @@ void Scene::update(int value)
     if (mouse.rightButtonPressed) {
         updateCameraPosition();
     }
-    
-
+    totalFPS++;
+    //std::cout << totalFPS << "\n";
 
 }
 
@@ -126,9 +124,23 @@ void Scene::display() {
     gluLookAt(cameraPositionCoordinates3.x, cameraPositionCoordinates3.y, cameraPositionCoordinates3.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
     glRotatef(0, 1.0, -1.0, 1.0);
-    //renderCube(0.5 ,0,0,0);
 
-    SmallCube(0.5, 0, 0, 0, "RGBOY").display();
+    glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
+    //glPushMatrix();//
+    //X.display();
+
+
+    //renderCube(0.5 ,0,0,0);
+    if (mouse.leftButtonPressed) {
+        mainCube.faceRotate();
+        
+    }
+    if (mainCube.animationActive) {
+        mainCube.smoothRotation(0, -1, 1, totalFPS);
+    }
+    mainCube.display();
+
+   /* SmallCube(0.5, 0, 0, 0, "RGBOY").display();
     SmallCube(0.5, 1, 0, 0, "RGBOY").display();
     SmallCube(0.5, -1, 0, 0, "RGBOY").display();
     SmallCube(0.5, 0, 1, 0, "RGBOY").display();
@@ -149,6 +161,7 @@ void Scene::display() {
     SmallCube(0.5, -1, -1, 1).display();
 
     glRotatef(45, 0, 0, 1.0);
+    glRotatef(15, 0, 0, 1.0);
     SmallCube(0.5, 0, 0, -1, "RGBOW").display();
     SmallCube(0.5, 1, 0, -1, "RGBOW").display();
     SmallCube(0.5, -1, 0, -1, "RGBOW").display();
@@ -157,9 +170,9 @@ void Scene::display() {
     SmallCube(0.5, -1, 1, -1, "RGBOW").display();
     SmallCube(0.5, 0, -1, -1, "RGBOW").display();
     SmallCube(0.5, 1, -1, -1, "RGBOW").display();
-    SmallCube(0.5, -1, -1, -1, "RGBOW").display();
-    glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
-    glPushMatrix();//
+    SmallCube(0.5, -1, -1, -1, "RGBOW").display();*/
+    //glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
+    //glPushMatrix();//
 
     //glRotatef(0, 0.0, 0.0, 1.0);
     //renderCube(0.5, 0, 0, 1);
@@ -191,7 +204,7 @@ void Scene::play()
     
   
     glutDisplayFunc(&Scene::displayST);
-    glutTimerFunc(16, &Scene::updateST, 0);
+    glutTimerFunc(10, &Scene::updateST, 0);
     glutMouseFunc(&Scene::mouseFuncST);
     glutPassiveMotionFunc(&Scene::PassiveMotionFuncST);
     glutMotionFunc(&Scene::activeMouseProcessingST);
@@ -202,6 +215,7 @@ void Scene::play()
 Scene::Scene()
 {
     //X =  SmallCube(0.5, 0, 0, 0);
+    //X.angleRotate = Coords(0, 0, 0);
     cameraDistanseToCoord0 = 10.0;
     cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
 }

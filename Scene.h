@@ -4,6 +4,8 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
+#include "RubiksCube3x3x3.h"
+
 class Scene
 {
 private:
@@ -39,7 +41,10 @@ private:
 
 	void display();
 	static void displayST();
+	RubiksCube3x3x3 mainCube;
 	//SmallCube X;
+
+	int totalFPS;
 public:
 	void play();
 	Scene();

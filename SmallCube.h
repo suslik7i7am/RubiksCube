@@ -9,16 +9,18 @@
 
 class SmallCube
 {
-protected:
+private:
 	std::string includedColors;
 	Color grey;
+	
 public:
 	Coords position;
 	float size;
-	Coords rotationAngles;
+	//Coords rotationAngles;
 	void renderCube();
 public:
-	
+	Coords angleRotate;
+	Coords animationAngleRotate;
 	SmallCube() = default;
 	SmallCube(float size, float x, float y, float z);
 	SmallCube(float size, float x, float y, float z, std::string includedColors);

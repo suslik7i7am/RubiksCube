@@ -3,12 +3,15 @@
 void SmallCube::renderCube()
 {
     //std::cout << size << "\n";
+    glRotatef(90 * (angleRotate.x + animationAngleRotate.x), 1, 0, 0);
+    glRotatef(90 * (angleRotate.y + animationAngleRotate.y), 0, 1, 0);
+    glRotatef(90 * (angleRotate.z + animationAngleRotate.z), 0, 0, 1);
     glBegin(GL_QUADS);
     float x = this->position.x;
     float y = this->position.y;
     float z = this->position.z;
     glTranslatef(x, y, z);
-
+    
     float width = 0.1;
     Color widthColor(0.1, 0.1, 0.1);
 
@@ -142,6 +145,7 @@ void SmallCube::renderCube()
 
 SmallCube::SmallCube(float size, float x, float y, float z)
 {
+    angleRotate = Coords(0, 0, 0);
     this->grey = Color(0.3, 0.3, 0.3);
     this->size = size;
     this->position = Coords(x, y, z);
@@ -150,6 +154,7 @@ SmallCube::SmallCube(float size, float x, float y, float z)
 
 SmallCube::SmallCube(float size, float x, float y, float z, std::string includedColors)
 {
+    angleRotate = Coords(0, 0, 0);
     this->grey = Color(0.3, 0.3, 0.3);
     this->size = size;
     this->position = Coords(x, y, z);
@@ -158,6 +163,7 @@ SmallCube::SmallCube(float size, float x, float y, float z, std::string included
 
 void SmallCube::display()
 {
+    //angleRotate = Coords(0, 0, 0);
     renderCube();
 }
 
