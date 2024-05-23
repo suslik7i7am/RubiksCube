@@ -7,7 +7,7 @@
 
 class SmallCube
 {
-protected:
+public:
 	Coords position;
 	float size;
 	Coords rotationAngles;
