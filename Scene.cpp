@@ -4,54 +4,54 @@
 Scene Scene::sceneInstance; // creating instance
 
 
-void Scene::passiveMouseProcessing(int mouseX, int mouseY)
+void Scene::Mouse::passiveMouseProcessing(int mouseX, int mouseY)
 {
-    mouse.cursorPositionX = mouseX;
-    mouse.cursorPositionY = mouseY;
+    cursorPositionX = mouseX;
+    cursorPositionY = mouseY;
 }
 
-void Scene::mouseProcessing(int button, int state, int x, int y)
+void Scene::Mouse::mouseProcessing(int button, int state, int x, int y)
 {
     if (button == GLUT_RIGHT_BUTTON) {
         if (state == GLUT_DOWN) {
-            mouse.rightButtonPressed = true;
+            rightButtonPressed = true;
         }
         else if (state == GLUT_UP) {
-            mouse.rightButtonPressed = false;
+            rightButtonPressed = false;
         }
         
     }
     if (button == GLUT_LEFT_BUTTON) {
         if (state == GLUT_DOWN) {
-            mouse.leftButtonPressed = true;
+            leftButtonPressed = true;
         }
         else if (state == GLUT_UP) {
-            mouse.leftButtonPressed = false;
+            leftButtonPressed = false;
         }
 
     }
 }
 
-void Scene::activeMouseProcessing(int mouseX, int mouseY)
+void Scene::Mouse::activeMouseProcessing(int mouseX, int mouseY)
 {
-    mouse.cursorPositionX = mouseX;
-    mouse.cursorPositionY = mouseY;
+    cursorPositionX = mouseX;
+    cursorPositionY = mouseY;
 }
 
 
 void Scene::PassiveMotionFuncST(int mouseX, int mouseY)
 {
-    sceneInstance.passiveMouseProcessing(mouseX, mouseY);
+    sceneInstance.mouse.passiveMouseProcessing(mouseX, mouseY);
 }
 
 void Scene::mouseFuncST(int button, int state, int x, int y)
 {
-	sceneInstance.mouseProcessing(button, state, x, y);
+	sceneInstance.mouse.mouseProcessing(button, state, x, y);
 }
 
 void Scene::activeMouseProcessingST(int mouseX, int mouseY)
 {
-    sceneInstance.activeMouseProcessing(mouseX, mouseY);
+    sceneInstance.mouse.activeMouseProcessing(mouseX, mouseY);
 }
 
 void Scene::update(int value)
