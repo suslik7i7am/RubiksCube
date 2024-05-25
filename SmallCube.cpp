@@ -72,9 +72,7 @@ void SmallCube::rotate(Coords data)
 
 void SmallCube::renderCube()
 {
-    if (position == Coords(-1, -1, 0)) {
-        std::cout << rotationDirectionConverter[0] << rotationDirectionConverter[1] << rotationDirectionConverter[2] << "\n";
-    }
+   
     //std::cout << size << "\n";
     // rotate
     rotationDirectionConverter = { 1,2,3 };

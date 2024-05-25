@@ -24,7 +24,6 @@ public:
 	void renderCube();
 public:
 	std::vector<int> rotationDirectionConverter;
-	int id = 0;
 	Coords angleRotate;
 	Coords animationAngleRotate;
 	SmallCube() = default;

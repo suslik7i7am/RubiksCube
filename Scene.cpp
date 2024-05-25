@@ -173,8 +173,6 @@ void Scene::displayST()
 
 void Scene::play()
 {
-    
-  
     glutDisplayFunc(&Scene::displayST);
     glutTimerFunc(10, &Scene::updateST, 0);
     glutMouseFunc(&Scene::mouseFuncST);
@@ -184,15 +182,12 @@ void Scene::play()
     glutKeyboardUpFunc(&Scene::keyboardProcessingST);
     glutSpecialFunc(&Scene::keyboardSpecialProcessingST);
     glutSpecialUpFunc(&Scene::keyboardSpecialProcessingST);
-    //glutMainLoop();
 }
 
 
 Scene::Scene()
 {
     keyboard = Keyboard();
-    X =  SmallCube(0.5, 1, 0, 0);
-    X.angleRotate = Coords(1, 1, 0);
     cameraDistanseToCoord0 = 10.0;
     cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
 }

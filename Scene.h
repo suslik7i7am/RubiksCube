@@ -53,10 +53,8 @@ private:
 	void display();
 	static void displayST();
 	RubiksCube3x3x3 mainCube;
-	SmallCube X;
-
+	
 	int totalFPS;
-	bool flaaaaaag;
 public:
 	void play();
 	Scene();
