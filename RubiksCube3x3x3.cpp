@@ -1,12 +1,7 @@
 #include "RubiksCube3x3x3.h"
 
 void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick) {// ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )
-	/*if (animationStartFrame == -1) {
-		animationStartFrame = tick;
-		std::cout << "=====  " << tick << "\n";
-		animationActive = true;
-	}*/
-	//std::cout << cubes[0][0][1].animationAngleRotate.z <<"\n";
+	
 	switch (numberOfTheCoordinateAxis) {
 	case 0: {
 		for (int i = side; i <= side; i++) {
@@ -218,17 +213,7 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 		}
 		}
 
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				for (int k = 0; k < 3; k++) {
-					std::cout << cubes[i][j][k].rotationDirectionConverter[0] << cubes[i][j][k].rotationDirectionConverter[1] <<
-						cubes[i][j][k].rotationDirectionConverter[2] << " ";
-				}
-				std::cout << "\n";
-			}
-			std::cout << "------------------------\n";
-		}
-		std::cout << "\n\n\n\n";
+		
 
 	}
 	
@@ -237,6 +222,7 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 void RubiksCube3x3x3::update(int totalFPS)
 {
 	if (animationActive) {
+		
 		smoothRotation(currentRotationFaceData.x, currentRotationFaceData.y, currentRotationFaceData.z, totalFPS);
 	}
 }

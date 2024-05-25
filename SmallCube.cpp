@@ -21,7 +21,7 @@ Coords SmallCube::converteDirection(Coords angles)
         ans.y = angles.z * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
     i = 2;
     if (abs(rotationDirectionConverter[i]) == 1)
-        ans.z = angles.x * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[ i];
+        ans.z = angles.x * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
     if (abs(rotationDirectionConverter[i]) == 2)
         ans.z = angles.y * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
     if (abs(rotationDirectionConverter[i]) == 3)
@@ -33,28 +33,29 @@ void SmallCube::rotate(Coords data)
 {
     std::vector<int> newRDC = rotationDirectionConverter;
     if (data.x == 0) {
-        //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
+        //std::cout << "OSb X\n";
         if (data.z == 1) {
-            newRDC[1] = -rotationDirectionConverter[2];
-            newRDC[2] = rotationDirectionConverter[1];
+            newRDC[1] = rotationDirectionConverter[2];
+            newRDC[2] = -rotationDirectionConverter[1];
         }
         else {
-            newRDC[1] = -rotationDirectionConverter[2];
-            newRDC[2] = rotationDirectionConverter[1];
+            newRDC[1] = -rotationDirectionConverter[1];
+            newRDC[2] = rotationDirectionConverter[2];
         }
     }
     if (data.x == 1) {
-        //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
+        //std::cout << "OSb Y\n";
         if (data.z == 1) {
             newRDC[0] = -rotationDirectionConverter[2];
             newRDC[2] = rotationDirectionConverter[0];
         }
         else {
-            newRDC[0] = -rotationDirectionConverter[2];
-            newRDC[2] = rotationDirectionConverter[0];
+            newRDC[0] = rotationDirectionConverter[2];
+            newRDC[2] = -rotationDirectionConverter[0];
         }
     }
     if (data.x == 2) {
+        //std::cout << "OSb Z\n";
         if (data.z == 1) {
             newRDC[0] = rotationDirectionConverter[1];
             newRDC[1] = rotationDirectionConverter[0];
@@ -71,6 +72,9 @@ void SmallCube::rotate(Coords data)
 
 void SmallCube::renderCube()
 {
+    if (position == Coords(-1, -1, 0)) {
+        std::cout << rotationDirectionConverter[0] << rotationDirectionConverter[1] << rotationDirectionConverter[2] << "\n";
+    }
     //std::cout << size << "\n";
     // rotate
     rotationDirectionConverter = { 1,2,3 };

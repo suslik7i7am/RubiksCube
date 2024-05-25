@@ -45,6 +45,7 @@ private:
 	SmallCube X;
 
 	int totalFPS;
+	bool flaaaaaag;
 public:
 	void play();
 	Scene();

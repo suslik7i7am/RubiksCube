@@ -135,15 +135,34 @@ void Scene::display() {
     SmallCube(0.5, 0, 0, 0,"RGB").display();*/
     //glPopMatrix();
     //////////////////////////////////////////////////////////////////
+    SmallCube(0.5, -2, -2, 0, "RGB").display();
     if (mouse.leftButtonPressed && !mainCube.animationActive) {
+        Sleep(100);
         mainCube.faceRotate(1, 0, 1);
+        flaaaaaag = true;
         
     }
     if (mouse.rightButtonPressed && !mainCube.animationActive) {
-        mainCube.faceRotate(0, 1 , 1);
+        
+        mainCube.faceRotate(0, 0 , 1);
+        flaaaaaag = true;
 
     }
     mainCube.display();
+    if (flaaaaaag) {
+        flaaaaaag = false;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    std::cout << mainCube.cubes[i][j][k].rotationDirectionConverter[0] << mainCube.cubes[i][j][k].rotationDirectionConverter[1] <<
+                        mainCube.cubes[i][j][k].rotationDirectionConverter[2] << " ";
+                }
+                std::cout << "\n";
+            }
+            std::cout << "------------------------\n";
+        }
+        std::cout << "\n\n\n\n";
+    }
     ////////////////////////////////////////////////////////////////////
    /* SmallCube(0.5, 0, 0, 0, "RGBOY").display();
     SmallCube(0.5, 1, 0, 0, "RGBOY").display();

@@ -7,7 +7,7 @@
 
 class RubiksCube3x3x3
 {
-protected:
+public://private
 	std::vector<std::vector<std::vector<SmallCube>>> cubes;
 	int animationStartFrame;
 	Coords currentRotationFaceData;
