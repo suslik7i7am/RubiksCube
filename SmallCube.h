@@ -30,6 +30,7 @@ public:
 	SmallCube() = default;
 	SmallCube(float size, float x, float y, float z);
 	SmallCube(float size, float x, float y, float z, std::string includedColors);
+	
 	void display();
 };
 

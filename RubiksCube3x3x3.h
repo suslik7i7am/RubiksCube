@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <ctime>
 
 class RubiksCube3x3x3
 {
@@ -17,6 +18,7 @@ public:
 	void display();
 	void faceRotate(int numberOfTheCoordinateAxis, int side, int direction);
 	void update(int totalFPS);
+	void randomMoves();
 	RubiksCube3x3x3();
 };
 

@@ -110,6 +110,16 @@ void Scene::updateST(int value)
     glutTimerFunc(16, updateST, 0);
 }
 
+void Scene::keyboardProcessingST(unsigned char key, int x, int y)
+{
+    sceneInstance.keyboard.keyboardProcessing(key, x, y, true);
+}
+
+void Scene::keyboardSpecialProcessingST(int key, int x, int y)
+{
+    sceneInstance.keyboard.keyboardProcessing(key, x, y, false);
+}
+
 
 void Scene::display() {
     //std::cout << cameraPosition.x << " " << cameraPosition.y << " " << cameraPosition.z << "\n";
@@ -124,19 +134,17 @@ void Scene::display() {
     
     gluLookAt(cameraPositionCoordinates3.x, cameraPositionCoordinates3.y, cameraPositionCoordinates3.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    //glRotatef(0, 1.0, -1.0, 1.0);
-
-    //glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
-    //glPushMatrix();//
-    /*X.display();
-    glPopMatrix();
-    glPushMatrix();
-    
-    SmallCube(0.5, 0, 0, 0,"RGB").display();*/
-    //glPopMatrix();
+   
     //////////////////////////////////////////////////////////////////
-    SmallCube(0.5, -2, -2, 0, "RGB").display();
-    if (mouse.leftButtonPressed && !mainCube.animationActive) {
+    
+    if (!mainCube.animationActive && (keyboard.buttonPresed['x'] || keyboard.buttonPresed['y'] || keyboard.buttonPresed['z'])) {
+        if ((keyboard.buttonPresed['1'] || keyboard.buttonPresed['2'] || keyboard.buttonPresed['3']) &&
+            (keyboard.buttonPresed['+'] || keyboard.buttonPresed['-']) ) {
+                mainCube.faceRotate(keyboard.buttonPresed['x'] + keyboard.buttonPresed['y'] * 2 + keyboard.buttonPresed['z'] * 3 - 1, keyboard.buttonPresed['1'] + keyboard.buttonPresed['2'] * 2 + keyboard.buttonPresed['3'] * 3, keyboard.buttonPresed['+'] * 2 - 1);
+        }
+    }
+
+    /*if (mouse.leftButtonPressed && !mainCube.animationActive) {
         Sleep(100);
         mainCube.faceRotate(1, 0, 1);
         flaaaaaag = true;
@@ -147,72 +155,12 @@ void Scene::display() {
         mainCube.faceRotate(0, 0 , 1);
         flaaaaaag = true;
 
-    }
+    }*/
     mainCube.display();
-    if (flaaaaaag) {
-        flaaaaaag = false;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                    std::cout << mainCube.cubes[i][j][k].rotationDirectionConverter[0] << mainCube.cubes[i][j][k].rotationDirectionConverter[1] <<
-                        mainCube.cubes[i][j][k].rotationDirectionConverter[2] << " ";
-                }
-                std::cout << "\n";
-            }
-            std::cout << "------------------------\n";
-        }
-        std::cout << "\n\n\n\n";
-    }
     ////////////////////////////////////////////////////////////////////
-   /* SmallCube(0.5, 0, 0, 0, "RGBOY").display();
-    SmallCube(0.5, 1, 0, 0, "RGBOY").display();
-    SmallCube(0.5, -1, 0, 0, "RGBOY").display();
-    SmallCube(0.5, 0, 1, 0, "RGBOY").display();
-    SmallCube(0.5, 1, 1, 0, "RGBOY").display();
-    SmallCube(0.5, -1, 1, 0, "RGBOY").display();
-    SmallCube(0.5, 0, -1, 0, "RGBOY").display();
-    SmallCube(0.5, 1, -1, 0, "RGBOY").display();
-    SmallCube(0.5, -1, -1, 0, "RGBOY").display();
-
-    SmallCube(0.5, 0, 0, 1).display();
-    SmallCube(0.5, 1, 0, 1).display();
-    SmallCube(0.5, -1, 0, 1).display();
-    SmallCube(0.5, 0, 1, 1).display();
-    SmallCube(0.5, 1, 1, 1).display();
-    SmallCube(0.5, -1, 1, 1).display();
-    SmallCube(0.5, 0, -1, 1).display();
-    SmallCube(0.5, 1, -1, 1).display();
-    SmallCube(0.5, -1, -1, 1).display();
-
-    glRotatef(45, 0, 0, 1.0);
-    glRotatef(15, 0, 0, 1.0);
-    SmallCube(0.5, 0, 0, -1, "RGBOW").display();
-    SmallCube(0.5, 1, 0, -1, "RGBOW").display();
-    SmallCube(0.5, -1, 0, -1, "RGBOW").display();
-    SmallCube(0.5, 0, 1, -1, "RGBOW").display();
-    SmallCube(0.5, 1, 1, -1, "RGBOW").display();
-    SmallCube(0.5, -1, 1, -1, "RGBOW").display();
-    SmallCube(0.5, 0, -1, -1, "RGBOW").display();
-    SmallCube(0.5, 1, -1, -1, "RGBOW").display();
-    SmallCube(0.5, -1, -1, -1, "RGBOW").display();*/
+  
     //glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
     //glPushMatrix();//
-
-    //glRotatef(0, 0.0, 0.0, 1.0);
-    //renderCube(0.5, 0, 0, 1);
-    //glPopMatrix(); // ---//----
-    //glPushMatrix();//
-
-    //glRotatef(0, 0.0, 0.0, 1.0);
-    //renderCube(0.5, 1, 0, 0);
-    //glPopMatrix(); // ---//----
-    //glPushMatrix();//
-
-    //glRotatef(0, 0.0, 0.0, 1.0);
-    //renderCube(0.5, 1, -1, 1);
-    //glPopMatrix(); // ---//----
-    //glPushMatrix();//
-
 
     glutSwapBuffers();
 }
@@ -232,14 +180,29 @@ void Scene::play()
     glutMouseFunc(&Scene::mouseFuncST);
     glutPassiveMotionFunc(&Scene::PassiveMotionFuncST);
     glutMotionFunc(&Scene::activeMouseProcessingST);
+    glutKeyboardFunc(&Scene::keyboardProcessingST);
+    glutKeyboardUpFunc(&Scene::keyboardProcessingST);
+    glutSpecialFunc(&Scene::keyboardSpecialProcessingST);
+    glutSpecialUpFunc(&Scene::keyboardSpecialProcessingST);
     //glutMainLoop();
 }
 
 
 Scene::Scene()
 {
+    keyboard = Keyboard();
     X =  SmallCube(0.5, 1, 0, 0);
     X.angleRotate = Coords(1, 1, 0);
     cameraDistanseToCoord0 = 10.0;
     cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
+}
+
+Scene::Keyboard::Keyboard()
+{
+    buttonPresed = std::vector<bool>(255, false);
+}
+
+void Scene::Keyboard::keyboardProcessing(unsigned char key, int x, int y, bool pressed)
+{
+    buttonPresed[key] = pressed;
 }

@@ -26,6 +26,15 @@ private:
 		void mouseButtonsProcessing(int button, int state, int x, int y);
 		
 	};
+
+	struct Keyboard
+	{
+	public:
+		void keyboardProcessing(unsigned char key, int x, int y, bool presed);
+		Keyboard();
+		std::vector<bool> buttonPresed;
+	};
+	Keyboard keyboard;
 	Mouse mouse;
 	Coords cameraPositionAngles; 
 	Coords cameraPositionCoordinates3;
@@ -33,6 +42,8 @@ private:
 	static void PassiveMotionFuncST(int mouseX, int mouseY);
 	static void mouseFuncST(int button, int state, int x, int y);
 	static void activeMouseProcessingST(int mouseX, int mouseY);
+	static void keyboardProcessingST(unsigned char key, int x, int y);
+	static void keyboardSpecialProcessingST(int key, int x, int y);
 
 	void update(int value);
 	static void updateST(int value);

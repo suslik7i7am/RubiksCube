@@ -227,8 +227,17 @@ void RubiksCube3x3x3::update(int totalFPS)
 	}
 }
 
+void RubiksCube3x3x3::randomMoves()
+{
+	int n = rand() % 20 + 100;
+	for (int i = 0; i < n; i++) {
+		faceRotate(rand() % 3, rand() % 3, (rand() % 2) * 2 - 1);
+	}
+}
+
 RubiksCube3x3x3::RubiksCube3x3x3()
 {
+	srand(time(0));
 	cubes = std::vector<std::vector<std::vector<SmallCube>>>(3, std::vector<std::vector<SmallCube>>(3, std::vector<SmallCube>(3)));
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
