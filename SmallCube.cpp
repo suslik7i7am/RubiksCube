@@ -1,11 +1,92 @@
 #include "SmallCube.h"
 #include <iostream>
+Coords SmallCube::converteDirection(Coords angles)
+{
+    Coords ans;
+    int i = 0;
+    //std::cout << angles.x << " " << angles.y << " " << angles.x << "    " << rotationDirectionConverter[0] << " "
+        //<< rotationDirectionConverter[1] << " " << rotationDirectionConverter[2]  << "\n";
+    if (abs(rotationDirectionConverter[i]) == 1)
+        ans.x = angles.x * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    if (abs(rotationDirectionConverter[i]) == 2)
+        ans.x = angles.y * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    if (abs(rotationDirectionConverter[i]) == 3)
+        ans.x = angles.z * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    i = 1;
+    if (abs(rotationDirectionConverter[i]) == 1)
+        ans.y = angles.x * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    if (abs(rotationDirectionConverter[i]) == 2)
+        ans.y = angles.y * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    if (abs(rotationDirectionConverter[i]) == 3)
+        ans.y = angles.z * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    i = 2;
+    if (abs(rotationDirectionConverter[i]) == 1)
+        ans.z = angles.x * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[ i];
+    if (abs(rotationDirectionConverter[i]) == 2)
+        ans.z = angles.y * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    if (abs(rotationDirectionConverter[i]) == 3)
+        ans.z = angles.z * abs((double)rotationDirectionConverter[i]) / rotationDirectionConverter[i];
+    //std::cout << ans.x << " " << ans.y << " " << ans.x << "\n";
+    return ans;
+}
+void SmallCube::rotate(Coords data)
+{
+    std::vector<int> newRDC = rotationDirectionConverter;
+    if (data.x == 0) {
+        //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
+        if (data.z == 1) {
+            newRDC[1] = -rotationDirectionConverter[2];
+            newRDC[2] = rotationDirectionConverter[1];
+        }
+        else {
+            newRDC[1] = -rotationDirectionConverter[2];
+            newRDC[2] = rotationDirectionConverter[1];
+        }
+    }
+    if (data.x == 1) {
+        //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
+        if (data.z == 1) {
+            newRDC[0] = -rotationDirectionConverter[2];
+            newRDC[2] = rotationDirectionConverter[0];
+        }
+        else {
+            newRDC[0] = -rotationDirectionConverter[2];
+            newRDC[2] = rotationDirectionConverter[0];
+        }
+    }
+    if (data.x == 2) {
+        if (data.z == 1) {
+            newRDC[0] = rotationDirectionConverter[1];
+            newRDC[1] = rotationDirectionConverter[0];
+        }
+        else {
+            newRDC[0] = rotationDirectionConverter[1];
+            newRDC[1] = rotationDirectionConverter[0];
+        }
+    }
+    rotationDirectionConverter = newRDC;
+}
+
+
+
 void SmallCube::renderCube()
 {
     //std::cout << size << "\n";
-    glRotatef(90 * (angleRotate.x + animationAngleRotate.x), 1, 0, 0);
-    glRotatef(90 * (angleRotate.y + animationAngleRotate.y), 0, 1, 0);
-    glRotatef(90 * (angleRotate.z + animationAngleRotate.z), 0, 0, 1);
+    // rotate
+    rotationDirectionConverter = { 1,2,3 };
+    for(int i = 0 ; i < pathRotation.size(); i++){
+        glRotatef(90 * pathRotation[i].z, pathRotation[i].x == 0, pathRotation[i].x == 1, pathRotation[i].x == 2);
+        
+            rotate(pathRotation[i]);
+        
+    }
+
+    Coords actualAnglesRotation = converteDirection(animationAngleRotate);
+    //std::cout << actualAnglesRotation.x << " " << actualAnglesRotation.y << " " << actualAnglesRotation.z << "\n";
+    glRotatef(90 * (actualAnglesRotation.x), 1, 0, 0);
+    glRotatef(90 * (actualAnglesRotation.y), 0, 1, 0);
+    glRotatef(90 * (actualAnglesRotation.z), 0, 0, 1);
+
     glBegin(GL_QUADS);
     float x = this->position.x;
     float y = this->position.y;
@@ -145,6 +226,7 @@ void SmallCube::renderCube()
 
 SmallCube::SmallCube(float size, float x, float y, float z)
 {
+    rotationDirectionConverter = { 1, 2, 3 };
     angleRotate = Coords(0, 0, 0);
     this->grey = Color(0.3, 0.3, 0.3);
     this->size = size;
@@ -154,6 +236,7 @@ SmallCube::SmallCube(float size, float x, float y, float z)
 
 SmallCube::SmallCube(float size, float x, float y, float z, std::string includedColors)
 {
+    rotationDirectionConverter = { 1, 2, 3 };
     angleRotate = Coords(0, 0, 0);
     this->grey = Color(0.3, 0.3, 0.3);
     this->size = size;
@@ -164,6 +247,8 @@ SmallCube::SmallCube(float size, float x, float y, float z, std::string included
 void SmallCube::display()
 {
     //angleRotate = Coords(0, 0, 0);
+    //glPopMatrix();
     renderCube();
+    //glPopMatrix();
 }
 

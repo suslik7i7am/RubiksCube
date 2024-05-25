@@ -5,20 +5,26 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <string>
-
+#include <vector>
+#include <cmath>
 
 class SmallCube
 {
 private:
 	std::string includedColors;
 	Color grey;
+	Coords converteDirection(Coords angles);
 	
 public:
+	std::vector<Coords> pathRotation;
+	void rotate(Coords data);
 	Coords position;
 	float size;
 	//Coords rotationAngles;
 	void renderCube();
 public:
+	std::vector<int> rotationDirectionConverter;
+	int id = 0;
 	Coords angleRotate;
 	Coords animationAngleRotate;
 	SmallCube() = default;

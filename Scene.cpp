@@ -98,6 +98,7 @@ void Scene::update(int value)
         updateCameraPosition();
     }
     totalFPS++;
+    mainCube.update(totalFPS);
     //std::cout << totalFPS << "\n";
 
 }
@@ -123,23 +124,27 @@ void Scene::display() {
     
     gluLookAt(cameraPositionCoordinates3.x, cameraPositionCoordinates3.y, cameraPositionCoordinates3.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    glRotatef(0, 1.0, -1.0, 1.0);
+    //glRotatef(0, 1.0, -1.0, 1.0);
 
-    glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
+    //glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
     //glPushMatrix();//
-    //X.display();
-
-
-    //renderCube(0.5 ,0,0,0);
-    if (mouse.leftButtonPressed) {
-        mainCube.faceRotate();
+    /*X.display();
+    glPopMatrix();
+    glPushMatrix();
+    
+    SmallCube(0.5, 0, 0, 0,"RGB").display();*/
+    //glPopMatrix();
+    //////////////////////////////////////////////////////////////////
+    if (mouse.leftButtonPressed && !mainCube.animationActive) {
+        mainCube.faceRotate(1, 0, 1);
         
     }
-    if (mainCube.animationActive) {
-        mainCube.smoothRotation(0, -1, 1, totalFPS);
+    if (mouse.rightButtonPressed && !mainCube.animationActive) {
+        mainCube.faceRotate(0, 1 , 1);
+
     }
     mainCube.display();
-
+    ////////////////////////////////////////////////////////////////////
    /* SmallCube(0.5, 0, 0, 0, "RGBOY").display();
     SmallCube(0.5, 1, 0, 0, "RGBOY").display();
     SmallCube(0.5, -1, 0, 0, "RGBOY").display();
@@ -214,8 +219,8 @@ void Scene::play()
 
 Scene::Scene()
 {
-    //X =  SmallCube(0.5, 0, 0, 0);
-    //X.angleRotate = Coords(0, 0, 0);
+    X =  SmallCube(0.5, 1, 0, 0);
+    X.angleRotate = Coords(1, 1, 0);
     cameraDistanseToCoord0 = 10.0;
     cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
 }
