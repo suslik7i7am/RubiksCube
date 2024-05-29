@@ -158,9 +158,9 @@ void SmallCube::rotate(Coords anglesRotations)
 void SmallCube::renderCube()
 {
     //std::cout << size << "\n";
-    glRotatef(90 * (angleRotate.x + animationAngleRotate.x), 1, 0, 0);
+    /*glRotatef(90 * (angleRotate.x + animationAngleRotate.x), 1, 0, 0);
     glRotatef(90 * (angleRotate.y + animationAngleRotate.y), 0, 1, 0);
-    glRotatef(90 * (angleRotate.z + animationAngleRotate.z), 0, 0, 1);
+    glRotatef(90 * (angleRotate.z + animationAngleRotate.z), 0, 0, 1);*/
     glBegin(GL_QUADS);
     float x = this->position.x;
     float y = this->position.y;

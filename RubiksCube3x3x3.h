@@ -14,7 +14,7 @@ public:
 	void smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick); // ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )
 	bool animationActive;
 	void display();
-	void faceRotate();
+	void faceRotate(int numberOfTheCoordinateAxis, int side, int direction);
 	RubiksCube3x3x3();
 };
 

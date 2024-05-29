@@ -1,4 +1,4 @@
-#include "Scene.h"
+ï»¿#include "Scene.h"
 #include <iostream>
 
 Scene Scene::sceneInstance; // creating instance
@@ -24,7 +24,7 @@ void Scene::Mouse::mouseButtonsProcessing(int button, int state, int x, int y)
             positionRightButtonUpY = deltaMouseCursorY;
             positionRightButtonUpY = std::min(std::max((double)positionRightButtonUpY, -3.14159265358979323846 * 100 / 2 + 10e-4), 3.14159265358979323846 * 100 / 2 - 10e-4);
         }
-        
+
     }
     if (button == GLUT_LEFT_BUTTON) {
         if (state == GLUT_DOWN) {
@@ -46,7 +46,7 @@ void Scene::PassiveMotionFuncST(int mouseX, int mouseY)
 
 void Scene::mouseFuncST(int button, int state, int x, int y)
 {
-	sceneInstance.mouse.mouseButtonsProcessing(button, state, x, y);
+    sceneInstance.mouse.mouseButtonsProcessing(button, state, x, y);
 }
 
 void Scene::activeMouseProcessingST(int mouseX, int mouseY)
@@ -62,15 +62,15 @@ void Scene::updateCameraPosition()
     if (cameraPositionAngles.y < 0) {
         cameraPositionAngles.y += 2 * 3.14159265358979323846;
     }
-    else if(cameraPositionAngles.y > 2 * 3.14159265358979323846){
+    else if (cameraPositionAngles.y > 2 * 3.14159265358979323846) {
         cameraPositionAngles.y -= 2 * 3.14159265358979323846;
     }
     cameraPositionAngles.z = mouse.deltaMouseCursorY / 100.0;
     if (cameraPositionAngles.z < -3.14159265358979323846 / 2) {
         cameraPositionAngles.z = -3.14159265358979323846 / 2 + 10e-4;
     }
-    else if (cameraPositionAngles.z >  3.14159265358979323846 / 2) {
-        cameraPositionAngles.z = 3.14159265358979323846 / 2 - 10e-4; 
+    else if (cameraPositionAngles.z > 3.14159265358979323846 / 2) {
+        cameraPositionAngles.z = 3.14159265358979323846 / 2 - 10e-4;
     }
 
     Coords point = Coords(cameraDistanseToCoord0, 0, 0);
@@ -87,7 +87,7 @@ void Scene::updateCameraPosition()
     cameraPositionCoordinates3 = Coords(rotationMatrix[0][0] * point.x + rotationMatrix[0][1] * point.y + rotationMatrix[0][2] * point.z,
         rotationMatrix[1][0] * point.x + rotationMatrix[1][1] * point.y + rotationMatrix[1][2] * point.z,
         rotationMatrix[2][0] * point.x + rotationMatrix[2][1] * point.y + rotationMatrix[2][2] * point.z);
-    
+
 }
 
 
@@ -98,7 +98,7 @@ void Scene::update(int value)
         updateCameraPosition();
     }
     totalFPS++;
-    
+    //mainCube.update(totalFPS);
     //std::cout << totalFPS << "\n";
 
 }
@@ -108,6 +108,25 @@ void Scene::updateST(int value)
     sceneInstance.update(value);
     glutPostRedisplay();
     glutTimerFunc(16, updateST, 0);
+}
+
+void Scene::keyboardProcessingST(unsigned char key, int x, int y)
+{
+    sceneInstance.keyboard.keyboardProcessing(key, x, y, true);
+}
+void Scene::keyboardProcessingUpST(unsigned char key, int x, int y)
+{
+    sceneInstance.keyboard.keyboardProcessing(key, x, y, false);
+}
+
+
+void Scene::keyboardSpecialProcessingST(int key, int x, int y)
+{
+    sceneInstance.keyboard.keyboardProcessing(key, x, y, true);
+}
+void Scene::keyboardSpecialProcessingUpST(int key, int x, int y)
+{
+    sceneInstance.keyboard.keyboardProcessing(key, x, y, false);
 }
 
 
@@ -121,23 +140,50 @@ void Scene::display() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
+
     gluLookAt(cameraPositionCoordinates3.x, cameraPositionCoordinates3.y, cameraPositionCoordinates3.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    glRotatef(0, 1.0, -1.0, 1.0);
-
-    glPopMatrix(); //ïîñëå îòðèñîâêè îáúåêòà íåîáõîäèìî èñïîëüçîâàòü íåçàâèñèìûå ìàòðèöû
-   
-   
-
-
+            
+    //////////////////////////////////////////////////////////////////
     
-    
-   
+    if (!mainCube.animationActive && (keyboard.buttonPresed['x'] || keyboard.buttonPresed['y'] || keyboard.buttonPresed['z'])) {
+        if ((keyboard.buttonPresed['1'] || keyboard.buttonPresed['2'] || keyboard.buttonPresed['3']) &&
+            (keyboard.buttonPresed['+'] || keyboard.buttonPresed['-'])) {
+            std::cout << keyboard.buttonPresed['x'] + keyboard.buttonPresed['y'] * 2 + keyboard.buttonPresed['z'] * 3 - 1 <<
+                keyboard.buttonPresed['1'] + keyboard.buttonPresed['2'] * 2 + keyboard.buttonPresed['3'] * 3 <<
+                keyboard.buttonPresed['+'] * 2 - 1 << "\n";
+            
+        }
+    }
+
+    if (keyboard.buttonPresed['q']) {
+        X.rotate(Coords(1, 0, 0));
+        mainCube.faceRotate(0, 0, -1);
+        std::cout << "rotate ";
+    }
+    if (keyboard.buttonPresed['w']) {
+        X.rotate(Coords(1, 0, 0));
+        mainCube.faceRotate(0, 0, 1);
+    }
+    /*if (mouse.leftButtonPressed && !mainCube.animationActive) {
+        Sleep(100);
+        mainCube.faceRotate(1, 0, 1);
+        flaaaaaag = true;
+
+    }
+    if (mouse.rightButtonPressed && !mainCube.animationActive) {
+
+        mainCube.faceRotate(0, 0 , 1);
+        flaaaaaag = true;
+
+    }*/
     mainCube.display();
+    //X.display();
+    
+    ////////////////////////////////////////////////////////////////////
 
-   
-
+    //glPopMatrix(); //Ã¯Ã®Ã±Ã«Ã¥ Ã®Ã²Ã°Ã¨Ã±Ã®Ã¢ÃªÃ¨ Ã®Ã¡ÃºÃ¥ÃªÃ²Ã  Ã­Ã¥Ã®Ã¡ÃµÃ®Ã¤Ã¨Ã¬Ã® Ã¨Ã±Ã¯Ã®Ã«Ã¼Ã§Ã®Ã¢Ã Ã²Ã¼ Ã­Ã¥Ã§Ã Ã¢Ã¨Ã±Ã¨Ã¬Ã»Ã¥ Ã¬Ã Ã²Ã°Ã¨Ã¶Ã»
+    //glPushMatrix();//
 
     glutSwapBuffers();
 }
@@ -150,21 +196,33 @@ void Scene::displayST()
 
 void Scene::play()
 {
-    
-  
     glutDisplayFunc(&Scene::displayST);
     glutTimerFunc(10, &Scene::updateST, 0);
     glutMouseFunc(&Scene::mouseFuncST);
     glutPassiveMotionFunc(&Scene::PassiveMotionFuncST);
     glutMotionFunc(&Scene::activeMouseProcessingST);
-    glutMainLoop();
+    glutKeyboardFunc(&Scene::keyboardProcessingST);
+    glutKeyboardUpFunc(&Scene::keyboardProcessingUpST);
+    glutSpecialFunc(&Scene::keyboardSpecialProcessingST);
+    glutSpecialUpFunc(&Scene::keyboardSpecialProcessingUpST);
 }
 
 
 Scene::Scene()
 {
-    //X =  SmallCube(0.5, 0, 0, 0);
-    //X.angleRotate = Coords(0, 0, 0);
+    X = SmallCube(0.5, 0, 0, 0);
+    keyboard = Keyboard();
     cameraDistanseToCoord0 = 10.0;
-    cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, cameraDistanseToCoord0, cameraDistanseToCoord0);
+    cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
+}
+
+Scene::Keyboard::Keyboard()
+{
+    buttonPresed = std::vector<bool>(255, false);
+}
+
+void Scene::Keyboard::keyboardProcessing(unsigned char key, int x, int y, bool pressed)
+{
+    std::cout << key << "\n";
+    buttonPresed[key] = pressed;
 }
