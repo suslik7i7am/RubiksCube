@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 class Coords
 {
 public:
@@ -6,6 +7,7 @@ public:
 	Coords(float X, float Y, float Z);
 	Coords();
 	bool operator==(const Coords& other);
+	Coords& intCast();
 	Coords& operator=(const Coords& othet);
 };
 

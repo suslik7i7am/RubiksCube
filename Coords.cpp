@@ -20,6 +20,16 @@ Coords& Coords::operator=(const Coords& othet)
 	return *this;
 }
 
+Coords& Coords::intCast()
+{
+	this->x = round(this->x);
+	this->y = round(this->y);
+	this->z = round(this->z);
+	return *this;
+}
+
+
+
 bool Coords::operator==(const Coords& other)
 {
 	return(x == other.x && y == other.y && z == other.z);

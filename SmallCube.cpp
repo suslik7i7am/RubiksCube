@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-Coords rotateVector3(Coords point, float angleX, float angleY, float angleZ) {
-	float a = angleX, b = angleY, c = angleZ;
+Coords rotateVector3(Coords point, Coords angles) {
+	float a = angles.x * 3.1415926535 / 2, b = angles.y * 3.1415926535 / 2, c = angles.z * 3.1415926535 / 2;
 	std::vector<std::vector<float>> rotationMatrix(3, std::vector<float>(3, 0));
 	rotationMatrix[0] = { cos(b) * cos(c),   -sin(c) * cos(b),   sin(b) };
 	rotationMatrix[1] = { sin(a) * sin(b) * cos(c) + sin(c) * cos(a),    -sin(a) * sin(b) * sin(c) + cos(a) * cos(c),   -sin(a) * cos(b) };
@@ -30,13 +30,13 @@ std::vector<Coords> SmallCube::generatingVertex(Coords normal, bool isWidht)
     if (!isWidht) {
         size -= width;
         if (normal == Coords(1, 0, 0)) { // синий
-            x += width + 1.001;
+            x += width + 0.001;
             vertex = {
             Coords(size + x, -size + y, -size + z),
             Coords(size + x, size + y, -size + z),
             Coords(size + x, size + y, size + z),
             Coords(size + x, -size + y, size + z) };
-            x -= width + 1.001;
+            x -= width + 0.001;
         }
 
         if (normal == Coords(0, 1, 0)) { // красный
@@ -89,7 +89,7 @@ std::vector<Coords> SmallCube::generatingVertex(Coords normal, bool isWidht)
         }
         size += width;
     }
-    else {
+    else {/////////////////////////////////////////////////////////////////////////////////////////////
         if (normal == Coords(1, 0, 0)) { // синий
            
             vertex = {
@@ -99,7 +99,6 @@ std::vector<Coords> SmallCube::generatingVertex(Coords normal, bool isWidht)
             Coords(size + x, -size + y, size + z) };
            
         }
-
         if (normal == Coords(0, 1, 0)) { // красный
             
             vertex = {
@@ -117,10 +116,8 @@ std::vector<Coords> SmallCube::generatingVertex(Coords normal, bool isWidht)
             Coords(size + x, size + y, size + z),
             Coords(-size + x, size + y, size + z) };
            
-        }
-        size += width;
+        }   
         //////////////////
-        size -= width;
         if (normal == Coords(-1, 0, 0)) {// зеленый
             
             vertex = {
@@ -145,11 +142,17 @@ std::vector<Coords> SmallCube::generatingVertex(Coords normal, bool isWidht)
             Coords(-size + x, -size + y, -size + z),
             Coords(size + x, -size + y, -size + z),
             Coords(size + x, size + y, -size + z),
-            Coords(-size + x, size + y, -size + z) };
-            
+            Coords(-size + x, size + y, -size + z) }; 
         }
     }
     return vertex;
+}
+
+void SmallCube::rotate(Coords anglesRotations)
+{
+    for (int i = 0; i < faceNormal.size(); i++) {
+        faceNormal[i] = rotateVector3(faceNormal[i], anglesRotations).intCast();
+    }
 }
 
 void SmallCube::renderCube()
@@ -167,130 +170,27 @@ void SmallCube::renderCube()
     float width = 0.1;
     Color widthColor(0.1, 0.1, 0.1);
 
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // Каемка
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    size -= width;
-    z -= width + 0.001;
-    if (includedColors.find('W') != std::string::npos) {
-        glColor3f(1.0, 1.0, 1.0); // Белый
-    }
-    else {
-        glColor3f(grey.r, grey.g, grey.b);
-    }
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    size += width;
-    z += width + 0.001;
+    std::vector<Coords> vertex;
 
+    std::vector<Color> colors = { Color(0.0, 0.275, 0.678), Color(0.718, 0.071, 0.204), Color(1.0, 0.835, 0.0),
+        Color(0.0, 0.608, 0.282), Color(1.0, 0.345, 0), Color(1.0, 1.0, 1.0) };
+    std::string letterOfColor = "BRYGOW";
+    for (int numFace = 0; numFace < 6; numFace++) {
+        vertex = generatingVertex(faceNormal[numFace], true);
+        glColor3f(widthColor.r, widthColor.g, widthColor.b); // Каемка
+        for (int i = 0; i < 4; i++)
+            glVertex3f(vertex[i].x, vertex[i].y, vertex[i].z);
 
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    size -= width;
-    z += width + 0.001;
-    if (includedColors.find('Y') != std::string::npos) {
-        glColor3f(1.0, 0.835, 0.0); // желтый
+        if (includedColors.find(letterOfColor[numFace]) != std::string::npos) {
+            glColor3f(colors[numFace].r, colors[numFace].g, colors[numFace].b); // цвет грани
+        }
+        else {
+            glColor3f(grey.r, grey.g, grey.b);
+        }
+        vertex = generatingVertex(faceNormal[numFace], false);
+        for (int i = 0; i < 4; i++)
+            glVertex3f(vertex[i].x, vertex[i].y, vertex[i].z);
     }
-    else {
-        glColor3f(grey.r, grey.g, grey.b);
-    }
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    size += width;
-    z -= width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    size -= width;
-    x -= width + 0.001;
-    if (includedColors.find('G') != std::string::npos) {
-        glColor3f(0.0, 0.608, 0.282); // зеленый
-    }
-    else {
-        glColor3f(grey.r, grey.g, grey.b);
-    }
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    size += width;
-    x += width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    size -= width;
-    x += width + 1.001;
-    if (includedColors.find('B') != std::string::npos) {
-        glColor3f(0.0, 0.275, 0.678); // Синий
-    }
-    else {
-        glColor3f(grey.r, grey.g, grey.b);
-    }
-    glVertex3f(size + x, -size + y, -size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    size += width;
-    x -= width + 1.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    size -= width;
-    y -= width + 0.001;
-    if (includedColors.find('O') != std::string::npos) {
-        glColor3f(1.0, 0.345, 0); // Оранжевый
-    }
-    else {
-        glColor3f(grey.r, grey.g, grey.b);
-    }
-    glVertex3f(-size + x, -size + y, -size + z);
-    glVertex3f(-size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, size + z);
-    glVertex3f(size + x, -size + y, -size + z);
-    size += width;
-    y += width + 0.001;
-
-
-    glColor3f(widthColor.r, widthColor.g, widthColor.b); // каемка
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    size -= width;
-    y += width + 0.001;
-    if (includedColors.find('R') != std::string::npos) {
-        glColor3f(0.718, 0.071, 0.204); // Крассный
-    }
-    else {
-        glColor3f(grey.r, grey.g, grey.b);
-    }
-    glVertex3f(-size + x, size + y, -size + z);
-    glVertex3f(-size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, size + z);
-    glVertex3f(size + x, size + y, -size + z);
-    size += width;
-    y -= width + 0.001;
 
     glEnd();
 }

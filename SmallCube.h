@@ -9,11 +9,12 @@
 
 class SmallCube
 {
-private:
+public:
 	std::string includedColors;
 	Color grey;
-	std::vector<Coords> generatingVertex(Coords normal);
+	std::vector<Coords> generatingVertex(Coords normal, bool isWidht);
 public:
+	void rotate(Coords anglesRotations);
 	Coords position;
 	float size;
 	//Coords rotationAngles;

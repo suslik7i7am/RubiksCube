@@ -98,6 +98,7 @@ void Scene::update(int value)
         updateCameraPosition();
     }
     totalFPS++;
+    
     //std::cout << totalFPS << "\n";
 
 }
@@ -127,13 +128,13 @@ void Scene::display() {
 
     glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
    
-    X.display();
+   
 
 
-    //renderCube(0.5 ,0,0,0);
+    
     
    
-    //mainCube.display();
+    mainCube.display();
 
    
 
@@ -162,8 +163,8 @@ void Scene::play()
 
 Scene::Scene()
 {
-    X =  SmallCube(0.5, 0, 1, 0);
+    //X =  SmallCube(0.5, 0, 0, 0);
     //X.angleRotate = Coords(0, 0, 0);
-    cameraDistanseToCoord0 = 4.0;
+    cameraDistanseToCoord0 = 10.0;
     cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, cameraDistanseToCoord0, cameraDistanseToCoord0);
 }

@@ -43,11 +43,7 @@ void RubiksCube3x3x3::display()
 				glPushMatrix();
 				//std::cout << cubes[i][j][k].angleRotate.x << " " << cubes[i][j][k].angleRotate.y << " " << cubes[i][j][k].angleRotate.z << "\n";
 				//glRotatef(90, 0, 1, 0);
-				if (i == 0) {
-					//cubes[i][j][k].angleRotate.x = 2;
-					//glRotatef(180, 1, 0, 0);
-					//glRotatef(90, 1, 0, 0);
-				}
+				
 				cubes[i][j][k].display();
 				//glRotatef(-10, 0, 0, 0);
 				//glRotatef(270, cubes[i][j][k].angleRotate.x, cubes[i][j][k].angleRotate.y, cubes[i][j][k].angleRotate.z);
