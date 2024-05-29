@@ -126,68 +126,16 @@ void Scene::display() {
     glRotatef(0, 1.0, -1.0, 1.0);
 
     glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
-    //glPushMatrix();//
-    //X.display();
+   
+    X.display();
 
 
     //renderCube(0.5 ,0,0,0);
-    if (mouse.leftButtonPressed) {
-        mainCube.faceRotate();
-        
-    }
-    if (mainCube.animationActive) {
-        mainCube.smoothRotation(0, -1, 1, totalFPS);
-    }
-    mainCube.display();
+    
+   
+    //mainCube.display();
 
-   /* SmallCube(0.5, 0, 0, 0, "RGBOY").display();
-    SmallCube(0.5, 1, 0, 0, "RGBOY").display();
-    SmallCube(0.5, -1, 0, 0, "RGBOY").display();
-    SmallCube(0.5, 0, 1, 0, "RGBOY").display();
-    SmallCube(0.5, 1, 1, 0, "RGBOY").display();
-    SmallCube(0.5, -1, 1, 0, "RGBOY").display();
-    SmallCube(0.5, 0, -1, 0, "RGBOY").display();
-    SmallCube(0.5, 1, -1, 0, "RGBOY").display();
-    SmallCube(0.5, -1, -1, 0, "RGBOY").display();
-
-    SmallCube(0.5, 0, 0, 1).display();
-    SmallCube(0.5, 1, 0, 1).display();
-    SmallCube(0.5, -1, 0, 1).display();
-    SmallCube(0.5, 0, 1, 1).display();
-    SmallCube(0.5, 1, 1, 1).display();
-    SmallCube(0.5, -1, 1, 1).display();
-    SmallCube(0.5, 0, -1, 1).display();
-    SmallCube(0.5, 1, -1, 1).display();
-    SmallCube(0.5, -1, -1, 1).display();
-
-    glRotatef(45, 0, 0, 1.0);
-    glRotatef(15, 0, 0, 1.0);
-    SmallCube(0.5, 0, 0, -1, "RGBOW").display();
-    SmallCube(0.5, 1, 0, -1, "RGBOW").display();
-    SmallCube(0.5, -1, 0, -1, "RGBOW").display();
-    SmallCube(0.5, 0, 1, -1, "RGBOW").display();
-    SmallCube(0.5, 1, 1, -1, "RGBOW").display();
-    SmallCube(0.5, -1, 1, -1, "RGBOW").display();
-    SmallCube(0.5, 0, -1, -1, "RGBOW").display();
-    SmallCube(0.5, 1, -1, -1, "RGBOW").display();
-    SmallCube(0.5, -1, -1, -1, "RGBOW").display();*/
-    //glPopMatrix(); //после отрисовки объекта необходимо использовать независимые матрицы
-    //glPushMatrix();//
-
-    //glRotatef(0, 0.0, 0.0, 1.0);
-    //renderCube(0.5, 0, 0, 1);
-    //glPopMatrix(); // ---//----
-    //glPushMatrix();//
-
-    //glRotatef(0, 0.0, 0.0, 1.0);
-    //renderCube(0.5, 1, 0, 0);
-    //glPopMatrix(); // ---//----
-    //glPushMatrix();//
-
-    //glRotatef(0, 0.0, 0.0, 1.0);
-    //renderCube(0.5, 1, -1, 1);
-    //glPopMatrix(); // ---//----
-    //glPushMatrix();//
+   
 
 
     glutSwapBuffers();
@@ -208,14 +156,14 @@ void Scene::play()
     glutMouseFunc(&Scene::mouseFuncST);
     glutPassiveMotionFunc(&Scene::PassiveMotionFuncST);
     glutMotionFunc(&Scene::activeMouseProcessingST);
-    //glutMainLoop();
+    glutMainLoop();
 }
 
 
 Scene::Scene()
 {
-    //X =  SmallCube(0.5, 0, 0, 0);
+    X =  SmallCube(0.5, 0, 1, 0);
     //X.angleRotate = Coords(0, 0, 0);
-    cameraDistanseToCoord0 = 10.0;
-    cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, 0, 0);
+    cameraDistanseToCoord0 = 4.0;
+    cameraPositionCoordinates3 = Coords(cameraDistanseToCoord0, cameraDistanseToCoord0, cameraDistanseToCoord0);
 }
