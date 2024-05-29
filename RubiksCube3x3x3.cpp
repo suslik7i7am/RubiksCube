@@ -6,8 +6,64 @@ void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, in
 		std::cout << "=====  " << tick << "\n";
 		animationActive = true;
 	}*/
-	std::cout << "d";
-	
+	if (animationStartFrame == -1) {
+		animationStartFrame = tick;
+	}
+
+	int progress = tick - animationStartFrame;
+
+	switch (numberOfTheCoordinateAxis) {
+	case 0: {
+		for (int i = side; i <= side; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					cubes[i][j][k].animationAngleRotate.x += direction * (1) / 100.0 * animationSpeed;
+				}
+			}
+		}
+		break;
+	}
+	case 1: {
+		for (int i = 0; i < 3; i++) {
+			for (int j = side; j <= side; j++) {
+				for (int k = 0; k < 3; k++) {
+					cubes[i][j][k].animationAngleRotate.y += direction * (1) / 100.0 * animationSpeed;
+				}
+			}
+		}
+		break;
+	}
+	case 2: {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = side; k <= side; k++) {
+					cubes[i][j][k].animationAngleRotate.z += direction * (1) / 100.0 * animationSpeed;
+				}
+			}
+		}
+		break;
+	}
+	default: {
+		std::cout << "Error\n";
+		exit(1);
+		break;
+	}
+	}
+
+
+	if (progress >= 100 / animationSpeed) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					cubes[i][j][k].animationAngleRotate = Coords(0, 0, 0);
+				}
+			}
+		}
+		animationEnded = true;
+		animationActive = false;
+		faceRotate(numberOfTheCoordinateAxis, side, direction); // выключение animationActive;
+		animationStartFrame = -1;
+	}
 	
 }
 
@@ -21,7 +77,7 @@ void RubiksCube3x3x3::display()
 				glPushMatrix();
 				//std::cout << cubes[i][j][k].angleRotate.x << " " << cubes[i][j][k].angleRotate.y << " " << cubes[i][j][k].angleRotate.z << "\n";
 				//glRotatef(90, 0, 1, 0);
-				
+				cubes[i][j][k].position = Coords(i - 1, j - 1, k - 1);
 				cubes[i][j][k].display();
 				//glRotatef(-10, 0, 0, 0);
 				//glRotatef(270, cubes[i][j][k].angleRotate.x, cubes[i][j][k].angleRotate.y, cubes[i][j][k].angleRotate.z);
@@ -31,15 +87,31 @@ void RubiksCube3x3x3::display()
 	}
 }
 
+void RubiksCube3x3x3::update(int totalFPS)
+{
+	std::cout << animationActive << " " << animationEnded << "\n";
+	if (animationActive) {
+		smoothRotation(currentRotationFaceData.x, currentRotationFaceData.y, currentRotationFaceData.z, totalFPS);
+	}
+}
+
+
 void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int direction)
 {
-	//std::cout << "rotated\n";
-	if (!animationActive) {
+	if (animationActive) {
+		return;
+	}
+	
+	std::cout << "rotated!!!\n";
+	currentRotationFaceData = Coords(numberOfTheCoordinateAxis, side, direction);
+	animationActive = true;
+	if (animationEnded) {
 
 		//animationActive = true;
 
 		switch (numberOfTheCoordinateAxis) {
 		case 0: {
+			
 			for (int i = side; i <= side; i++) {
 				std::vector<std::vector<SmallCube>> faceAfterRotate(3, std::vector<SmallCube>(3));
 				for (int k = 2; k >= 0; k--) {
@@ -69,7 +141,7 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 						else {
 							faceAfterRotate[i][k] = cubes[k][j][2 - i];
 						}
-						faceAfterRotate[i][k].rotate(Coords(direction, 0, 0));
+						faceAfterRotate[i][k].rotate(Coords(0, direction, 0));
 					}
 				}
 			}
@@ -93,7 +165,7 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 						else {
 							faceAfterRotate[i][j] = cubes[j][2 - i][k];
 						}
-						faceAfterRotate[i][j].rotate(Coords(direction, 0, 0));
+						faceAfterRotate[i][j].rotate(Coords(0, 0, direction));
 					}
 				}
 			}
@@ -114,7 +186,8 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 		}
 
 
-
+		animationEnded = false;
+		animationActive = false;
 	}
 }
 

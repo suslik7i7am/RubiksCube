@@ -98,7 +98,7 @@ void Scene::update(int value)
         updateCameraPosition();
     }
     totalFPS++;
-    //mainCube.update(totalFPS);
+    mainCube.update(totalFPS);
     //std::cout << totalFPS << "\n";
 
 }
@@ -164,6 +164,14 @@ void Scene::display() {
     if (keyboard.buttonPresed['w']) {
         X.rotate(Coords(1, 0, 0));
         mainCube.faceRotate(0, 0, 1);
+    }
+    if (keyboard.buttonPresed['a']) {
+        X.rotate(Coords(1, 0, 0));
+        mainCube.faceRotate(1, 0, 1);
+    }
+    if (keyboard.buttonPresed['s']) {
+        X.rotate(Coords(1, 0, 0));
+        mainCube.faceRotate(1, 0, -1);
     }
     /*if (mouse.leftButtonPressed && !mainCube.animationActive) {
         Sleep(100);
