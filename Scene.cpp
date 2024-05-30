@@ -157,21 +157,24 @@ void Scene::display() {
     }
 
     if (keyboard.buttonPresed['q']) {
-        X.rotate(Coords(1, 0, 0));
+        
         mainCube.faceRotate(0, 0, -1);
-        std::cout << "rotate ";
     }
     if (keyboard.buttonPresed['w']) {
-        X.rotate(Coords(1, 0, 0));
+      
         mainCube.faceRotate(0, 0, 1);
     }
     if (keyboard.buttonPresed['a']) {
-        X.rotate(Coords(1, 0, 0));
+      
         mainCube.faceRotate(1, 0, 1);
     }
     if (keyboard.buttonPresed['s']) {
-        X.rotate(Coords(1, 0, 0));
+       
         mainCube.faceRotate(1, 0, -1);
+    }
+    if (keyboard.buttonPresed['v']) {
+       
+        mainCube.solve();
     }
     /*if (mouse.leftButtonPressed && !mainCube.animationActive) {
         Sleep(100);
@@ -231,6 +234,5 @@ Scene::Keyboard::Keyboard()
 
 void Scene::Keyboard::keyboardProcessing(unsigned char key, int x, int y, bool pressed)
 {
-    std::cout << key << "\n";
     buttonPresed[key] = pressed;
 }

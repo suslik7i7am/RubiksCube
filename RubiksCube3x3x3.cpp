@@ -1,5 +1,10 @@
 #include "RubiksCube3x3x3.h"
 
+void RubiksCube3x3x3::solve()
+{
+	buildingActive = true;
+}
+
 void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick) {// ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )
 	/*if (animationStartFrame == -1) {
 		animationStartFrame = tick;
@@ -89,9 +94,18 @@ void RubiksCube3x3x3::display()
 
 void RubiksCube3x3x3::update(int totalFPS)
 {
-	std::cout << animationActive << " " << animationEnded << "\n";
 	if (animationActive) {
 		smoothRotation(currentRotationFaceData.x, currentRotationFaceData.y, currentRotationFaceData.z, totalFPS);
+	}
+	if (!animationActive && !animationEnded && buildingActive) {
+		if (commandStack.empty()) {
+			buildingActive = false;
+		}
+		else {
+			std::cout << commandStack.size() << "\n";
+			faceRotate(commandStack.back().x, commandStack.back().y, -commandStack.back().z);
+			commandStack.pop_back();
+		}
 	}
 }
 
@@ -102,7 +116,10 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 		return;
 	}
 	
-	std::cout << "rotated!!!\n";
+	if (!buildingActive && !animationEnded) {
+		commandStack.push_back(Coords(numberOfTheCoordinateAxis, side, direction));
+	}
+
 	currentRotationFaceData = Coords(numberOfTheCoordinateAxis, side, direction);
 	animationActive = true;
 	if (animationEnded) {
@@ -211,7 +228,7 @@ RubiksCube3x3x3::RubiksCube3x3x3()
 				if (k == 2)
 					colors.push_back('Y');
 				
-				cubes[i][j][k] = SmallCube(0.3, (float)i - 1, (float)j - 1, (float)k - 1, colors);
+				cubes[i][j][k] = SmallCube(0.5, (float)i - 1, (float)j - 1, (float)k - 1, colors);
 			}
 		}
 	}

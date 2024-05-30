@@ -12,9 +12,12 @@ protected:
 	int animationStartFrame = -1;
 	bool animationEnded = false;
 	Coords currentRotationFaceData;
-public:
-	double animationSpeed = 1;
 
+	std::vector<Coords> commandStack;
+	bool buildingActive = false;
+public:
+	double animationSpeed = 4;
+	void solve();
 	void smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick); // ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )
 	bool animationActive;
 	void display();
