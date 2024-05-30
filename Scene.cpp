@@ -158,11 +158,11 @@ void Scene::display() {
 
     if (keyboard.buttonPresed['q']) {
         
-        mainCube.faceRotate(0, 0, -1);
+        mainCube.faceRotate(2, 0, -1);
     }
     if (keyboard.buttonPresed['w']) {
       
-        mainCube.faceRotate(0, 0, 1);
+        mainCube.faceRotate(2, 0, 1);
     }
     if (keyboard.buttonPresed['a']) {
       
@@ -175,6 +175,10 @@ void Scene::display() {
     if (keyboard.buttonPresed['v']) {
        
         mainCube.solve();
+    }
+    if (keyboard.buttonPresed['r']) {
+
+        mainCube.randomCondition();
     }
     /*if (mouse.leftButtonPressed && !mainCube.animationActive) {
         Sleep(100);

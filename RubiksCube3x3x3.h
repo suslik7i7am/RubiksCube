@@ -14,10 +14,13 @@ protected:
 	Coords currentRotationFaceData;
 
 	std::vector<Coords> commandStack;
+	std::vector<Coords> commandStackForRandomCondition;
 	bool buildingActive = false;
+	bool randomBuildingActive = false;
 public:
-	double animationSpeed = 4;
+	double animationSpeed = 16;
 	void solve();
+	void randomCondition();
 	void smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick); // ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )
 	bool animationActive;
 	void display();

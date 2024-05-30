@@ -5,6 +5,17 @@ void RubiksCube3x3x3::solve()
 	buildingActive = true;
 }
 
+void RubiksCube3x3x3::randomCondition()
+{
+	if (!animationActive && !buildingActive) {
+		for (int i = 0; i < 100; i++) {
+			Coords move(rand() % 3, rand() % 3, rand() % 2 * 2 - 1);
+			commandStackForRandomCondition.push_back(move);
+		}
+		randomBuildingActive = true;
+	}
+}
+
 void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick) {// ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )
 	/*if (animationStartFrame == -1) {
 		animationStartFrame = tick;
@@ -42,7 +53,7 @@ void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, in
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				for (int k = side; k <= side; k++) {
-					cubes[i][j][k].animationAngleRotate.z += direction * (1) / 100.0 * animationSpeed;
+					cubes[i][j][k].animationAngleRotate.z -= direction * (1) / 100.0 * animationSpeed;
 				}
 			}
 		}
@@ -97,14 +108,25 @@ void RubiksCube3x3x3::update(int totalFPS)
 	if (animationActive) {
 		smoothRotation(currentRotationFaceData.x, currentRotationFaceData.y, currentRotationFaceData.z, totalFPS);
 	}
-	if (!animationActive && !animationEnded && buildingActive) {
-		if (commandStack.empty()) {
-			buildingActive = false;
+	if (!animationActive && !animationEnded) {
+		if (buildingActive) {
+			if (commandStack.empty()) {
+				buildingActive = false;
+			}
+			else {
+				std::cout << commandStack.size() << "\n";
+				faceRotate(commandStack.back().x, commandStack.back().y, -commandStack.back().z);
+				commandStack.pop_back();
+			}
 		}
-		else {
-			std::cout << commandStack.size() << "\n";
-			faceRotate(commandStack.back().x, commandStack.back().y, -commandStack.back().z);
-			commandStack.pop_back();
+		if (randomBuildingActive) {
+			if (commandStackForRandomCondition.empty()) {
+				randomBuildingActive = false;
+			}
+			else {
+				faceRotate(commandStackForRandomCondition.back().x, commandStackForRandomCondition.back().y, -commandStackForRandomCondition.back().z);
+				commandStackForRandomCondition.pop_back();
+			}
 		}
 	}
 }
@@ -182,7 +204,7 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 						else {
 							faceAfterRotate[i][j] = cubes[j][2 - i][k];
 						}
-						faceAfterRotate[i][j].rotate(Coords(0, 0, direction));
+						faceAfterRotate[i][j].rotate(Coords(0, 0, -direction));
 					}
 				}
 			}
