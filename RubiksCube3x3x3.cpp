@@ -23,7 +23,7 @@ void RubiksCube3x3x3::optimization()
 	while (upd) {
 		upd = false;
 		for (int i = 0; i < commandStack.size() - 3; i++) {
-			std::cout << i << " ";
+			
 			if (commandStack.size() >= 4) {
 				if (commandStack[i] == commandStack[i + 1] && commandStack[i + 1] == commandStack[i + 2]
 					&& commandStack[i + 2] == commandStack[i + 3]) {
@@ -88,8 +88,15 @@ SmallCube RubiksCube3x3x3::getSmallCube(int i, int j, int k)
 void RubiksCube3x3x3::solve()
 {
 	if (!buildingActive) {
+		system("cls");
 		optimization();
 		buildingActive = true;
+		if (random && buildingActive) {
+			animationSpeed = 50;
+		}
+		else {
+			animationSpeed = 10;
+		}
 	}
 }
 
@@ -101,6 +108,7 @@ void RubiksCube3x3x3::randomCondition()
 			commandStackForRandomCondition.push_back(move);
 		}
 		randomBuildingActive = true;
+		random = true;
 	}
 }
 
@@ -197,12 +205,11 @@ void RubiksCube3x3x3::display()
 void RubiksCube3x3x3::update(int totalFPS)
 {
 	if (buildingActive) {
-		if (commandStack.size() > 20) {
-			animationSpeed = 40;
-		}
-		else {
+		if (commandStack.size() <= 0) {
 			animationSpeed = 10;
+			random = false;
 		}
+		
 	}
 	else {
 		animationSpeed = 10;
@@ -216,8 +223,7 @@ void RubiksCube3x3x3::update(int totalFPS)
 				buildingActive = false;
 			}
 			else {
-				if(commandStack.size() % 10 == 0)
-					std::cout << commandStack.size() << "\n";
+				
 				faceRotate(commandStack.back().x, commandStack.back().y, -commandStack.back().z);
 				commandStack.pop_back();
 			}
@@ -241,7 +247,29 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 	if (animationActive) {
 		return;
 	}
-	
+	if (buildingActive && !animationEnded) {
+		std::cout << "turne the ";
+			switch (numberOfTheCoordinateAxis)
+			{
+			case 0: {
+				std::cout << (side == 0 ? "GREEN" : "BLUE");
+				break;
+			};
+			case 1: {
+				std::cout << (side == 0 ? "ORANGE" : "RED");
+				break; 
+			};
+			case 2: {
+				std::cout << (side == 0 ? "WHITE" : "YELLOW");
+				break; 
+			};
+			default:
+				break;
+
+			};
+		std::cout << " face " << (direction == 1 ? "clockwise" : "counterclockwise") << "\n";
+
+	}
 	if (!buildingActive && !animationEnded) {
 		commandStack.push_back(Coords(numberOfTheCoordinateAxis, side, direction));
 	}

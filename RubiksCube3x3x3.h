@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-
+ 
 class RubiksCube3x3x3
 {
 private:
@@ -21,7 +21,7 @@ protected:
 
 	bool buildingActive = false;
 	bool randomBuildingActive = false;
-
+	bool random = false;
 	std::vector<std::vector<std::vector<bool>>> generateInPlace();
 	void optimization();
 public:
