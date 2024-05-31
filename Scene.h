@@ -55,6 +55,7 @@ private:
 	void display();
 	static void displayST();
 	RubiksCube3x3x3 mainCube;
+	RubiksCube3x3x3 cube;
 	SmallCube X;
 	int totalFPS;
 public:

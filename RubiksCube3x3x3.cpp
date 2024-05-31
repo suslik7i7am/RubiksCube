@@ -1,5 +1,22 @@
 #include "RubiksCube3x3x3.h"
 
+std::vector<std::vector<std::vector<bool>>> RubiksCube3x3x3::generateInPlace()
+{
+	
+	std::vector<std::vector<std::vector<bool>>> ans(3, std::vector<std::vector<bool>>(3, std::vector<bool>(3, false)));
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			for (int k = 0; k < 3; k++) {
+				if (colorsInPlaces[i][j][k] == cubes[i][j][k].includedColors && 
+					cubes[i][j][k].faceNormal[0] == Coords(1, 0, 0) && cubes[i][j][k].faceNormal[1] == Coords(0, 1, 0) && cubes[i][j][k].faceNormal[2] == Coords(0, 0, 1)) {
+					ans[i][j][k] = true;
+				}
+			}
+		}
+	}
+	return ans;
+}
+
 void RubiksCube3x3x3::solve()
 {
 	buildingActive = true;
@@ -9,7 +26,7 @@ void RubiksCube3x3x3::randomCondition()
 {
 	if (!animationActive && !buildingActive) {
 		for (int i = 0; i < 100; i++) {
-			Coords move(rand() % 3, rand() % 3, rand() % 2 * 2 - 1);
+			Coords move(rand() % 3, rand() % 2 * 2, rand() % 2 * 2 - 1);
 			commandStackForRandomCondition.push_back(move);
 		}
 		randomBuildingActive = true;
@@ -83,13 +100,24 @@ void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, in
 	
 }
 
+
 void RubiksCube3x3x3::display()
 {
+	auto X = generateInPlace();
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			std::cout << X[i][j][2];
+		}
+		std::cout << "\n";
+	}
+	std::cout << "---------------\n";
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadIdentity();
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			for (int k = 0; k < 3; k++) {
+				if (i == 1 && j == 1 && k == 2)
+					continue;
 				glPushMatrix();
 				//std::cout << cubes[i][j][k].angleRotate.x << " " << cubes[i][j][k].angleRotate.y << " " << cubes[i][j][k].angleRotate.z << "\n";
 				//glRotatef(90, 0, 1, 0);
@@ -114,7 +142,8 @@ void RubiksCube3x3x3::update(int totalFPS)
 				buildingActive = false;
 			}
 			else {
-				std::cout << commandStack.size() << "\n";
+				if(commandStack.size() % 10 == 0)
+					std::cout << commandStack.size() << "\n";
 				faceRotate(commandStack.back().x, commandStack.back().y, -commandStack.back().z);
 				commandStack.pop_back();
 			}
@@ -134,6 +163,7 @@ void RubiksCube3x3x3::update(int totalFPS)
 
 void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int direction)
 {
+
 	if (animationActive) {
 		return;
 	}
@@ -232,6 +262,8 @@ void RubiksCube3x3x3::faceRotate(int numberOfTheCoordinateAxis, int side, int di
 
 RubiksCube3x3x3::RubiksCube3x3x3()
 {
+	colorsInPlaces = std::vector<std::vector<std::vector<std::string>>>(3, std::vector<std::vector<std::string>>(3, std::vector<std::string>(3)));
+
 	cubes = std::vector<std::vector<std::vector<SmallCube>>>(3, std::vector<std::vector<SmallCube>>(3, std::vector<SmallCube>(3)));
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
@@ -251,7 +283,18 @@ RubiksCube3x3x3::RubiksCube3x3x3()
 					colors.push_back('Y');
 				
 				cubes[i][j][k] = SmallCube(0.5, (float)i - 1, (float)j - 1, (float)k - 1, colors);
+				colorsInPlaces[i][j][k] = colors;
 			}
 		}
 	}
+	inPlace = std::vector<std::vector<std::vector<bool>>>(3, std::vector<std::vector<bool>>(3, std::vector<bool>(3)));
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			for (int k = 0; k < 3; k++) {
+				inPlace[i][j][k] = true;
+			}
+		}
+	}
+
+		
 }

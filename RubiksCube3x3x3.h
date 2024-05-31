@@ -7,6 +7,9 @@
 
 class RubiksCube3x3x3
 {
+private:
+	std::vector<std::vector<std::vector<std::string>>>
+		colorsInPlaces;
 protected:
 	std::vector<std::vector<std::vector<SmallCube>>> cubes;
 	int animationStartFrame = -1;
@@ -15,10 +18,14 @@ protected:
 
 	std::vector<Coords> commandStack;
 	std::vector<Coords> commandStackForRandomCondition;
+
 	bool buildingActive = false;
 	bool randomBuildingActive = false;
+
+	std::vector<std::vector<std::vector<bool>>> generateInPlace();
 public:
-	double animationSpeed = 16;
+	std::vector<std::vector<std::vector<bool>>> inPlace;
+	double animationSpeed = 10;
 	void solve();
 	void randomCondition();
 	void smoothRotation(int numberOfTheCoordinateAxis, int side, int direction, int tick); // ({0,1,2}, {-1,1}, {-1,1}, [0.0-1.0] )

@@ -192,6 +192,7 @@ void Scene::display() {
         flaaaaaag = true;
 
     }*/
+    //if(!mainCube.animationActive)
     mainCube.display();
     //X.display();
     
@@ -212,7 +213,7 @@ void Scene::displayST()
 void Scene::play()
 {
     glutDisplayFunc(&Scene::displayST);
-    glutTimerFunc(10, &Scene::updateST, 0);
+    glutTimerFunc(0, &Scene::updateST, 0);
     glutMouseFunc(&Scene::mouseFuncST);
     glutPassiveMotionFunc(&Scene::PassiveMotionFuncST);
     glutMotionFunc(&Scene::activeMouseProcessingST);
