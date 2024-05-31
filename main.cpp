@@ -31,6 +31,11 @@ Coords cameraPosition(4.0, 0.0, 0.0);
 
 int main(int argc, char** argv) {
     //cout << (round(-0.3) == -0) << endl;
+    vector<int> vec = { 1,2,3 };
+    vec.erase(vec.begin() + 1, vec.begin() + 3);
+    for (int i = 0; i < vec.size(); i++) {
+        cout << vec[i] << " ";
+    }
     cout << "hello world";
    
     glutInit(&argc, argv);

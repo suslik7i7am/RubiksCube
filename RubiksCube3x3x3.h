@@ -23,8 +23,10 @@ protected:
 	bool randomBuildingActive = false;
 
 	std::vector<std::vector<std::vector<bool>>> generateInPlace();
+	void optimization();
 public:
 	std::vector<std::vector<std::vector<bool>>> inPlace;
+	SmallCube getSmallCube(int i, int j, int k);
 	double animationSpeed = 10;
 	void solve();
 	void randomCondition();

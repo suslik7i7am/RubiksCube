@@ -17,9 +17,80 @@ std::vector<std::vector<std::vector<bool>>> RubiksCube3x3x3::generateInPlace()
 	return ans;
 }
 
+void RubiksCube3x3x3::optimization()
+{
+	bool upd = true;
+	while (upd) {
+		upd = false;
+		for (int i = 0; i < commandStack.size() - 3; i++) {
+			std::cout << i << " ";
+			if (commandStack.size() >= 4) {
+				if (commandStack[i] == commandStack[i + 1] && commandStack[i + 1] == commandStack[i + 2]
+					&& commandStack[i + 2] == commandStack[i + 3]) {
+					commandStack.erase(commandStack.begin() + i, commandStack.begin() + i + 4);
+
+					upd = true;
+
+				}
+			}
+			else {
+				break;
+			}
+		}
+	}
+	
+	upd = true;
+	while (upd) {
+		upd = false;
+		for (int i = 0; i < commandStack.size() - 1; i++) {
+			if (commandStack.size() >= 2) {
+				if (commandStack[i].x == commandStack[i + 1].x && commandStack[i].y == commandStack[i + 1].y
+					&& commandStack[i].z == -commandStack[i + 1].z) {
+					commandStack.erase(commandStack.begin() + i, commandStack.begin() + i + 2);
+					upd = true;
+					
+				}
+			}
+			else {
+				upd = false;
+				break;
+			}
+		}
+	}
+	//return;
+	//std::cout << "aaaa\n";
+	upd = true;
+	while (upd) {
+		upd = false;
+		for (int i = 0; i < commandStack.size() - 2; i++) {
+			if (commandStack.size() >= 3) {
+				if (commandStack[i] == commandStack[i + 1] && commandStack[i + 1] == commandStack[i + 2]) {
+					commandStack[i + 2].z *= -1;
+					commandStack.erase(commandStack.begin() + i, commandStack.begin() + i + 2);
+					
+					upd = true;
+					
+				}
+			}
+			else {
+				break;
+			}
+		}
+	}
+	//std::cout << "optimized\n";
+}
+
+SmallCube RubiksCube3x3x3::getSmallCube(int i, int j, int k)
+{
+	return cubes[i][j][k];
+}
+
 void RubiksCube3x3x3::solve()
 {
-	buildingActive = true;
+	if (!buildingActive) {
+		optimization();
+		buildingActive = true;
+	}
 }
 
 void RubiksCube3x3x3::randomCondition()
@@ -103,21 +174,13 @@ void RubiksCube3x3x3::smoothRotation(int numberOfTheCoordinateAxis, int side, in
 
 void RubiksCube3x3x3::display()
 {
-	auto X = generateInPlace();
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			std::cout << X[i][j][2];
-		}
-		std::cout << "\n";
-	}
-	std::cout << "---------------\n";
+	
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadIdentity();
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			for (int k = 0; k < 3; k++) {
-				if (i == 1 && j == 1 && k == 2)
-					continue;
+				
 				glPushMatrix();
 				//std::cout << cubes[i][j][k].angleRotate.x << " " << cubes[i][j][k].angleRotate.y << " " << cubes[i][j][k].angleRotate.z << "\n";
 				//glRotatef(90, 0, 1, 0);
@@ -133,6 +196,12 @@ void RubiksCube3x3x3::display()
 
 void RubiksCube3x3x3::update(int totalFPS)
 {
+	if (buildingActive) {
+		animationSpeed = 10;
+	}
+	else {
+		animationSpeed = 10;
+	}
 	if (animationActive) {
 		smoothRotation(currentRotationFaceData.x, currentRotationFaceData.y, currentRotationFaceData.z, totalFPS);
 	}
