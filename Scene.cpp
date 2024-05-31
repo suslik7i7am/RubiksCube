@@ -156,30 +156,41 @@ void Scene::display() {
         }
     }
 
-    if (keyboard.buttonPresed['q']) {
-        
-        mainCube.faceRotate(2, 0, -1);
+    if (keyboard.buttonPresed['y']) {
+        mainCube.faceRotate(2, 2, (keyboard.buttonPresed['-'] ? -1 : 1));
     }
     if (keyboard.buttonPresed['w']) {
       
-        mainCube.faceRotate(2, 0, 1);
+        mainCube.faceRotate(2, 0, (keyboard.buttonPresed['-'] ? -1 : 1));
     }
-    if (keyboard.buttonPresed['a']) {
+    if (keyboard.buttonPresed['o']) {
       
-        mainCube.faceRotate(1, 0, 1);
+        mainCube.faceRotate(1, 0, (keyboard.buttonPresed['-'] ? -1 : 1));
     }
-    if (keyboard.buttonPresed['s']) {
+    if (keyboard.buttonPresed['r']) {
+
+        mainCube.faceRotate(1, 2, (keyboard.buttonPresed['-'] ? -1 : 1));
+    }
+    if (keyboard.buttonPresed['g']) {
        
-        mainCube.faceRotate(1, 0, -1);
+        mainCube.faceRotate(0, 0, (keyboard.buttonPresed['-'] ? -1 : 1));
+    }
+    if (keyboard.buttonPresed['b']) {
+
+        mainCube.faceRotate(0, 2, (keyboard.buttonPresed['-'] ? -1 : 1));
     }
     if (keyboard.buttonPresed['v']) {
        
         mainCube.solve();
     }
-    if (keyboard.buttonPresed['r']) {
+
+
+    if (keyboard.buttonPresed['f']) {
 
         mainCube.randomCondition();
     }
+
+
     /*if (mouse.leftButtonPressed && !mainCube.animationActive) {
         Sleep(100);
         mainCube.faceRotate(1, 0, 1);

@@ -197,7 +197,12 @@ void RubiksCube3x3x3::display()
 void RubiksCube3x3x3::update(int totalFPS)
 {
 	if (buildingActive) {
-		animationSpeed = 10;
+		if (commandStack.size() > 20) {
+			animationSpeed = 40;
+		}
+		else {
+			animationSpeed = 10;
+		}
 	}
 	else {
 		animationSpeed = 10;
